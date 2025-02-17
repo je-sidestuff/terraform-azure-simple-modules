@@ -223,8 +223,7 @@ resource "azurerm_container_app" "this" {
 
     ignore_changes = [
       ingress,
-      identity,
-      template[0].container[0].image
+      identity
     ]
     precondition {
       condition     = local.assigned_identity_type != "Invalid"
