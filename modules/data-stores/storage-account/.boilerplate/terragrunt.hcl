@@ -13,5 +13,6 @@ include "envcommon" {
 
 inputs = {
   resource_group_name = "{{ .ResourceGroupName }}"
-  storage_account_name = "{{ .Name }}"
+  storage_account_name = replace("{{ .Name }}", "-", "")
+  container_names = [replace("{{ .Name }}", "-", "")]
 }

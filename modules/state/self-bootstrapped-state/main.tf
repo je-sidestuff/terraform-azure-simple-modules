@@ -20,7 +20,7 @@ resource "azurerm_storage_container" "state_container" {
 }
 
 resource "local_file" "terraform_backend" {
-  count = var.bootstrap_style == "terraform" ? 1 : 0
+  count = (var.bootstrap_style == "terraform" && var.enable_remote) ? 1 : 0
 
   content  = templatefile("${path.module}/backend.tf.tmpl", {
     resource_group_name = azurerm_resource_group.state_resource_group.name
@@ -32,7 +32,7 @@ resource "local_file" "terraform_backend" {
 }
 
 resource "local_file" "terraform_backend_ignore" {
-  count = var.bootstrap_style == "terraform" ? 1 : 0
+  count = (var.bootstrap_style == "terraform" && var.enable_remote) ? 1 : 0
   
   content  = "backend.tf"
   filename = "${path.root}/.gitignore"
