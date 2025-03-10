@@ -7,7 +7,7 @@
 # The second argument is the path where the terraform config will be deployed.
 
 # Verify the number of arguments is not less than 2
-if [ "$#" -lt 2 ]; then
+if [ "$#" -gt 1 ]; then
     # Ensure the first argument contains only lowercase characters and hyphens; hyphens may not be the first or last character
     if ! [[ "$1" =~ ^[a-z-]+$ ]]; then
         echo "Invalid game prefix: $1"
