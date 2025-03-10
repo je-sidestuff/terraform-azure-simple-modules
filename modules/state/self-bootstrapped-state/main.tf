@@ -20,7 +20,7 @@ resource "azurerm_storage_container" "state_container" {
 }
 
 resource "local_file" "terraform_backend" {
-  count = (var.bootstrap_style == "terraform" && var.enable_remote) ? 1 : 0
+  count = (contains(var.bootstrap_styles, "terraform") && var.enable_remote) ? 1 : 0
 
   content  = templatefile("${path.module}/backend.tf.tmpl", {
     resource_group_name = azurerm_resource_group.state_resource_group.name
@@ -31,9 +31,14 @@ resource "local_file" "terraform_backend" {
   filename = "${path.root}/backend.tf"
 }
 
-resource "local_file" "terraform_backend_ignore" {
-  count = (var.bootstrap_style == "terraform" && var.enable_remote) ? 1 : 0
-  
-  content  = "backend.tf"
-  filename = "${path.root}/.gitignore"
+resource "local_file" "terragrunt_generator" {
+  count = (contains(var.bootstrap_styles, "terragrunt") && var.enable_remote) ? 1 : 0
+
+  content  = templatefile("${path.module}/backend-generator.hcl.tmpl", {
+    resource_group = azurerm_resource_group.state_resource_group.name
+    storage_account = azurerm_storage_account.state_storage_account.name
+    container = azurerm_storage_container.state_container.name
+    key_string = "${"$"}{path_relative_to_include()}/terraform.tfstate"
+  })
+  filename = "${var.terragrunt_backend_generator_folder}/backend-generator.hcl"
 }

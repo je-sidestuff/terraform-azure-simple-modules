@@ -6,9 +6,8 @@
 
 # The second argument is the path where the terraform config will be deployed.
 
-# Check if the number of arguments is 1, use it as the game name prefix if so, and ask the user if they want to
-# use a randomly generated pet name if not
-if [ "$#" -eq 2 ]; then
+# Verify the number of arguments is not less than 2
+if [ "$#" -lt 2 ]; then
     # Ensure the first argument contains only lowercase characters and hyphens; hyphens may not be the first or last character
     if ! [[ "$1" =~ ^[a-z-]+$ ]]; then
         echo "Invalid game prefix: $1"
@@ -27,8 +26,22 @@ fi
 if [ -d "$2" ]; then
     export TF_CONFIG_PATH="$2"
 else
-    echo "Please provide a valid folder path as the second argument."
+    echo "Please provide a valid folder path as the second argument. (TF Config Path)"
     exit 1
+fi
+
+# If there is a third agrument verify that it is a valid folder path
+if [ "$#" -gt 2 ]; then
+    if [ -d "$3" ]; then
+        export MAYBE_TG_GERNERATOR_PATH="terragrunt_backend_generator_folder = \"$3\""
+        export MAYBE_TG_GENERATE="bootstrap_styles = [\"terragrunt\", \"terraform\"]"
+    else
+        echo "Please provide a valid folder path as the third argument. (TG Generator Path)"
+        exit 1
+    fi
+else
+    export MAYBE_TG_GERNERATOR_PATH=""
+    export MAYBE_TG_GENERATE=""
 fi
 
 export SBS_RG_NAME="$1-rg"
@@ -55,6 +68,10 @@ module "state" {
   resource_group_name  = "$SBS_RG_NAME"
   storage_account_name = "$SBS_SA_NAME"
   root_container_name  = "$SBS_SC_NAME"
+
+  $MAYBE_TG_GENERATE
+
+  $MAYBE_TG_CONFIG_PATH
 
   # tags = var.tags TODO - we probably want tags
 }

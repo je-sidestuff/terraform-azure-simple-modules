@@ -23,12 +23,12 @@ variable "root_container_name" {
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "bootstrap_style" {
+variable "bootstrap_styles" {
   description = "To use this module for a direct tofu/terraform bootstrap or a terragrunt bootstrap."
-  type        = string
-  default     = "terraform"
+  type        = list(string)
+  default     = ["terraform"]
   validation {
-    condition     = contains(["terraform", "terragrunt"], var.bootstrap_style)
+    condition     = alltrue([for v in var.bootstrap_styles : contains(["terraform", "terragrunt"], v)])
     error_message = "Acceptable values for 'bootstrap_style' are 'terraform' and 'terragrunt'."
   }
 }
@@ -43,6 +43,12 @@ variable "location" {
   description = "The location where the state storage will be deployed."
   type        = string
   default     = "eastus"
+}
+
+variable "terragrunt_backend_generator_folder" {
+  description = "The path to the folder where the terragrunt backend generator will be deployed. Only used if bootstrap_style includes terragrunt."
+  type        = string
+  default     = ""
 }
 
 variable "tags" {

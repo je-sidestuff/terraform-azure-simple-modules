@@ -21,5 +21,8 @@ module "state" {
   storage_account_name = local.storage_account_name
   root_container_name  = local.storage_container_name
 
+  bootstrap_styles = ["terraform", "terragrunt"]
+  terragrunt_backend_generator_folder = "${path.root}/terragrunt-mock"
+
   tags = var.tags
 }

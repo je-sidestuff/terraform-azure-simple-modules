@@ -1,0 +1,13 @@
+variables:
+  - name: ResourceGroupName
+    description: The name of the resource group where the state storage will be deployed.
+    type: string
+  - name: StorageAccountName
+    description: The name of the state storage account.
+    type: string
+  - name: RootContainerName
+    description: The name of the state storage container where the state for the state storage will be stored.
+    type: string
+  - name: TerragruntBackendGeneratorFolder
+    description: The path to the folder where the terragrunt backend generator will be deployed.
+    type: string
