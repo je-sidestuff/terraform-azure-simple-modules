@@ -71,7 +71,7 @@ module "state" {
 
   $MAYBE_TG_GENERATE
 
-  $MAYBE_TG_CONFIG_PATH
+  $MAYBE_TG_GERNERATOR_PATH
 
   # tags = var.tags TODO - we probably want tags
 }

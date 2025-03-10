@@ -41,4 +41,11 @@ resource "local_file" "terragrunt_generator" {
     key_string = "${"$"}{path_relative_to_include()}/terraform.tfstate"
   })
   filename = "${var.terragrunt_backend_generator_folder}/backend-generator.hcl"
+
+  lifecycle {
+    precondition {
+      condition     = var.terragrunt_backend_generator_folder != ""
+      error_message = "The terragrunt_backend_generator_folder must be set if bootstrap_style includes terragrunt"
+    }
+  }
 }
