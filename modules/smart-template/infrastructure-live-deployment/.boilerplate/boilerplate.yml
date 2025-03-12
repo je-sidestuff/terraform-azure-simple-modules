@@ -1,0 +1,7 @@
+variables:
+  - name: Name
+    description: The name of the infrastructure live repo
+    type: string
+  - name: InitPayloadContent
+    description: The naming prefix to base this MI name on
+    type: string

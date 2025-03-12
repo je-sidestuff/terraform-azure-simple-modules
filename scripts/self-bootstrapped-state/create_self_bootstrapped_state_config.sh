@@ -81,7 +81,7 @@ cat << EOF > "${TF_CONFIG_PATH}/self_bootstrap.sh"
 #!/bin/bash
 
 # This script executes the multi-phase process of self-bootstrapping.
-# It first applies the module with the assumption thati t has not yet been applied, and then runs the migration command.
+# It first applies the module with the assumption that it has not yet been applied, and then runs the migration command.
 # It then plans again to verify no changes.
 
 terraform init -input=false
