@@ -20,3 +20,5 @@ inputs = {
   
   terragrunt_backend_generator_folder = "{{ .TerragruntBackendGeneratorFolder }}"
 }
+
+prevent_destroy = true
