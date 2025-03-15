@@ -21,6 +21,6 @@ inputs = {
   resource_group_name = "{{ .ResourceGroupName }}"
   naming_prefix = "{{ .NamingPrefix }}"
   location = local.location
-  federated_identity_subjects = "{{ .FederatedIdentitySubjects }}"
+  federated_identity_subjects = [{{range $i, $v := .FederatedIdentitySubjects}}{{if gt $i 0}}, {{end}}"{{$v}}"{{end}}]
   contributor_scope = "{{ .ContributorScope }}"
 }

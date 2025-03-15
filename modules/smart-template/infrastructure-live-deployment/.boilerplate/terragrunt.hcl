@@ -14,5 +14,7 @@ include "envcommon" {
 inputs = {
   # Note that TF_VAR_github_pat must be present in the environment.
   name = "{{ .Name }}"
-  init_payload_content = "{{ .InitPayloadContent }}"
+  init_payload_content = <<EOF
+{{ .InitPayloadContent }}
+EOF
 }
