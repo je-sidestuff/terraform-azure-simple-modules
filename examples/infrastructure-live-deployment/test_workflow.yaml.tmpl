@@ -15,6 +15,11 @@ jobs:
       contents: read  # This is required for actions/checkout
     steps:
       - uses: actions/checkout@v4
+#      - name: Manual login -- this does not work and it would be good to know why.
+#        run: |
+#          export AZURE_TENANT_ID="${tenant_id}"
+#          export AZURE_SUBSCRIPTION_ID="${subscription_id}"
+#          az login --identity --client-id ${client_id}
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:

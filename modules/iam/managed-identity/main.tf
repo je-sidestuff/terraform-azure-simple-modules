@@ -12,7 +12,7 @@ resource "azurerm_user_assigned_identity" "this" {
 resource "azurerm_federated_identity_credential" "this" {
   for_each = toset(var.federated_identity_subjects)
 
-  name                = local.full_name
+  name                = "${local.full_name}-${substr(sha256(each.key), 0, 8)}"
   resource_group_name = var.resource_group_name
   audience            = ["api://AzureADTokenExchange"]
   issuer              = "https://token.actions.githubusercontent.com"

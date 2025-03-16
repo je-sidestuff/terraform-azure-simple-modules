@@ -14,10 +14,32 @@ variable "github_pat" {
   sensitive   = true
 }
 
+variable "azure_subscription_id" {
+  description = "The azure subscription id."
+  type        = string
+}
+
+variable "azure_tenant_id" {
+  description = "The azure tenant id."
+  type        = string
+}
+
+variable "azure_client_id" {
+  description = "The azure client id for the repo's managed identity."
+  type        = string
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
+
+variable "custom_actions_secrets" {
+  description = "A map of custom actions secrets to add to the smart template repo."
+  type        = map(string)
+  default     = {}
+  sensitive   = true
+}
 
 variable "default_branch" {
   description = "Default branch of the deployed repo."

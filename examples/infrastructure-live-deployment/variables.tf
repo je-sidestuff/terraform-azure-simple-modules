@@ -31,13 +31,14 @@ variable "name" {
   default     = "generate"
 }
 
-variable "init_payload_content" {
+variable "init_payload_content_string" {
   description = "A json string uused to drive the initialization of the repo."
   type        = string
   default     = <<EOF
 {
+  "mi_client_id" : "$${mi_client_id}",
   "self_bootstrap" : {
-    "subscription_id" : "26b5518a-2387-4baa-8089-813227c5e476",
+    "subscription_id" : "$${subscription_id}",
     "input_targets" : {
       "storage_account" : {
         "repo": "je-sidestuff/terraform-azure-simple-modules",

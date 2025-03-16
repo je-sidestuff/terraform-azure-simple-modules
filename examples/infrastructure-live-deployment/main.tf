@@ -1,6 +1,11 @@
 locals {
   name_prefix  = var.name == "generate" ? "ex-${random_string.random.result}" : var.name
   example_repo = "${local.name_prefix}-repo"
+
+  init_payload_content = templatestring(var.init_payload_content_string, {
+    mi_client_id = module.managed_identity.client_id
+    subscription_id = data.azurerm_client_config.current.subscription_id
+  })
 }
 
 resource "random_string" "random" {
@@ -24,10 +29,17 @@ module "managed_identity" {
   resource_group_name = azurerm_resource_group.this.name
 
   federated_identity_subjects = [
-    "repo:${var.github_org}/${local.example_repo}:ref:refs/heads/main"
+    "repo:${var.github_org}/${local.example_repo}:ref:refs/heads/main",
+    "repo:${var.github_org}/${local.example_repo}:ref:refs/tags/init"
   ]
 
   contributor_scope = azurerm_resource_group.this.id
+}
+
+resource "time_sleep" "mi_auth_eventual_consistency" {
+  depends_on = [ module.managed_identity ]
+
+  create_duration = "10s"
 }
 
 module "repo" {
@@ -35,7 +47,13 @@ module "repo" {
 
   name                 = local.example_repo
   github_pat           = var.github_pat
-  init_payload_content = var.init_payload_content
+  init_payload_content = local.init_payload_content
+
+  azure_subscription_id = data.azurerm_client_config.current.subscription_id
+  azure_tenant_id       = data.azurerm_client_config.current.tenant_id
+  azure_client_id       = module.managed_identity.client_id
+
+  depends_on = [ time_sleep.mi_auth_eventual_consistency ]
 }
 
 resource "local_file" "workflow" {
