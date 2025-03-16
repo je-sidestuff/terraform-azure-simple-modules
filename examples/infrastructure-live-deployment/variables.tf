@@ -34,5 +34,29 @@ variable "name" {
 variable "init_payload_content" {
   description = "A json string uused to drive the initialization of the repo."
   type        = string
-  default     = "{\"self_bootstrap\": \"INITIALIZED\"}"
+  default     = <<EOF
+{
+  "self_bootstrap" : {
+    "subscription_id" : "26b5518a-2387-4baa-8089-813227c5e476",
+    "input_targets" : {
+      "storage_account" : {
+        "repo": "je-sidestuff/terraform-azure-simple-modules",
+        "path": "modules/data-stores/storage-account",
+        "branch": "environment_deployment_support",
+        "placement": {
+          "region": "eastus",
+          "env": "default",
+          "subscription": "sandbox"
+        },
+        "vars": {
+          "ResourceGroupName": "from-infra-live-example",
+          "Name": "iiliveexstorageaccount",
+          "CreateResourceGroup": "true",
+          "Location": "eastus"
+        }
+      }
+    }
+  }
+}
+EOF
 }
