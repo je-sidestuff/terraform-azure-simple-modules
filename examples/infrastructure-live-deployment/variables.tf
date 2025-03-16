@@ -34,5 +34,5 @@ variable "name" {
 variable "init_payload_content" {
   description = "A json string uused to drive the initialization of the repo."
   type        = string
-  default     = "{\"filename\": \"INITIALIZED\"}"
+  default     = "{\"self_bootstrap\": \"INITIALIZED\"}"
 }

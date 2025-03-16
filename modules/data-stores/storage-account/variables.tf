@@ -21,6 +21,7 @@ variable "storage_account_name" {
 variable "container_names" {
   description = "The names of the storage containers."
   type        = list(string)
+  default     = []
 }
 
 variable "create_resource_group" {

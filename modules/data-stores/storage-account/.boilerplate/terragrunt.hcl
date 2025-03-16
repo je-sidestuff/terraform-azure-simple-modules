@@ -15,4 +15,5 @@ inputs = {
   resource_group_name = "{{ .ResourceGroupName }}"
   storage_account_name = replace("{{ .Name }}", "-", "")
   container_names = [replace("{{ .Name }}", "-", "")]
+  create_resource_group = "{{ .CreateResourceGroup }}"
 }

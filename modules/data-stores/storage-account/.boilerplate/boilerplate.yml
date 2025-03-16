@@ -5,3 +5,6 @@ variables:
   - name: ResourceGroupName
     description: The name of the team using this module
     type: string
+  - name: CreateResourceGroup
+    description: Whether to create the resource group
+    type: string
