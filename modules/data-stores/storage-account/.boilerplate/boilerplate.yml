@@ -8,3 +8,6 @@ variables:
   - name: CreateResourceGroup
     description: Whether to create the resource group
     type: string
+  - name: Location
+    description: The location of the storage account, only required if creating the resource group
+    type: string
