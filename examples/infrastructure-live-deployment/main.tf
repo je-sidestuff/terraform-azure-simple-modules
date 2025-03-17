@@ -33,13 +33,13 @@ module "managed_identity" {
     "repo:${var.github_org}/${local.example_repo}:ref:refs/tags/init"
   ]
 
-  contributor_scope = azurerm_resource_group.this.id
+  contributor_scope = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
 }
 
 resource "time_sleep" "mi_auth_eventual_consistency" {
   depends_on = [ module.managed_identity ]
 
-  create_duration = "10s"
+  create_duration = "30s"
 }
 
 module "repo" {

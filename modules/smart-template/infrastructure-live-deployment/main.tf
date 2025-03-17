@@ -1,5 +1,5 @@
 module "this" {
-  source = "git@github.com:je-sidestuff/terraform-github-orchestration.git//modules/repos/smart-template/deployment"
+  source = "git@github.com:je-sidestuff/terraform-github-orchestration.git//modules/repos/smart-template/deployment?ref=environment_deployment_support"
 
   name                   = var.name
   github_pat             = var.github_pat

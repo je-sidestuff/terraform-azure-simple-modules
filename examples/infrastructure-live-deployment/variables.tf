@@ -57,6 +57,27 @@ variable "init_payload_content_string" {
         }
       }
     }
+  },
+  "deployment" : {
+    "subscription_id" : "$${subscription_id}",
+    "input_targets" : {
+      "storage_account" : {
+        "repo": "je-sidestuff/terraform-azure-simple-modules",
+        "path": "modules/data-stores/storage-account",
+        "branch": "environment_deployment_support",
+        "placement": {
+          "region": "eastus",
+          "env": "default",
+          "subscription": "sandbox"
+        },
+        "vars": {
+          "ResourceGroupName": "from-infra-live-exampled",
+          "Name": "iilveexdeployeaccount",
+          "CreateResourceGroup": "true",
+          "Location": "eastus"
+        }
+      }
+    }
   }
 }
 EOF

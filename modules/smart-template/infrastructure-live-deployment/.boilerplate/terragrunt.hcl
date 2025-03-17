@@ -28,10 +28,18 @@ provider "github" {
 EOF
 }
 
+dependency "mi" {
+  config_path = "../../iam/managed_identity"
+}
+
 inputs = {
   # Note that TF_VAR_github_pat must be present in the environment.
   name = "{{ .Name }}"
   init_payload_content = <<EOF
 {{ .InitPayloadContent }}
 EOF
+
+  azure_subscription_id = dependency.mi.outputs.subscription_id
+  azure_tenant_id       = dependency.mi.outputs.tenant_id
+  azure_client_id       = dependency.mi.outputs.client_id
 }

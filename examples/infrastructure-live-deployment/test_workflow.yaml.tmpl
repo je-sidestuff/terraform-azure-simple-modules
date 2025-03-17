@@ -26,3 +26,27 @@ jobs:
           client-id: ${client_id}
           tenant-id: ${tenant_id}
           subscription-id: ${subscription_id}
+      - name: Deploy terragrunt
+        shell: /usr/bin/bash {0}
+        run: |
+          # Install TF
+          echo "1"
+          which terraform
+          curl "https://releases.hashicorp.com/terraform/1.9.1/terraform_1.9.1_linux_amd64.zip" -o "terraform_1.9.1_linux_amd64.zip"
+          echo "2"
+          unzip -o terraform_1.9.1_linux_amd64.zip
+          echo "3"
+          sudo mv terraform /usr/local/bin/terraform
+          echo "4"
+          # Install TG
+          which terragrunt
+          curl -L https://github.com/gruntwork-io/terragrunt/releases/download/v0.75.10/terragrunt_linux_amd64 -o terragrunt
+          chmod +x terragrunt
+          echo "5"
+          sudo mv terragrunt /usr/local/bin/terragrunt
+          # Deploy terragrunt
+          pwd
+          tree -d .
+          cd "deployment/terragrunt/sandbox" 
+          ls -latr
+          terragrunt run-all apply --terragrunt-non-interactive
