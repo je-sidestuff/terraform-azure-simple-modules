@@ -59,6 +59,16 @@ variable "init_payload_content" {
   default     = "{\"rg-name\": \"default-infra-live-rg\"}"
 }
 
+variable "timeout_in_seconds" {
+  description = "The number of seconds to allow for repo init."
+  type        = number
+  default     = 300
+  validation {
+    condition     = var.timeout_in_seconds > 19 && var.timeout_in_seconds < 3600
+    error_message = "The timeout_in_seconds must be greater than 19 and less than 3600."
+  }
+}
+
 variable "visibility" {
   description = "The visibility for the smart template repo to deploy. (public or private)"
   type        = string

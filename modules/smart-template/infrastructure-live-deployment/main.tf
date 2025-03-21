@@ -13,6 +13,7 @@ module "this" {
     AZURE_MI_CLIENT_ID    = var.azure_client_id
   }
 
+  timeout_in_seconds      = 600
   source_owner         = "je-sidestuff"
   template_repo_name   = "azure-infrastructure-live-template"
 }
