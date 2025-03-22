@@ -42,4 +42,6 @@ EOF
   azure_subscription_id = dependency.mi.outputs.subscription_id
   azure_tenant_id       = dependency.mi.outputs.tenant_id
   azure_client_id       = dependency.mi.outputs.client_id
+
+  timeout_in_seconds = {{ .TimeoutInSeconds }}
 }
