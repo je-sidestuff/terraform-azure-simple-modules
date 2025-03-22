@@ -174,6 +174,7 @@ resource "azurerm_container_app" "this" {
       target_port      = var.ingress.target_port
       traffic_weight {
         percentage = 100
+        latest_revision = true
       }
       transport        = var.ingress.transport
     }
