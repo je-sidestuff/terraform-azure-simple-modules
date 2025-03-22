@@ -27,10 +27,20 @@ jobs:
           TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           CLIENT_ID: ${{ secrets.AZURE_MI_CLIENT_ID }}
           TF_VAR_github_pat: ${{ secrets.GH_PAT }}
+        run: |
+          sudo apt-get install unzip
+          curl "https://releases.hashicorp.com/terraform/1.9.1/terraform_1.9.1_linux_amd64.zip" -o "terraform_1.9.1_linux_amd64.zip"
+          unzip terraform_1.9.1_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/terraform
+          curl -L https://github.com/gruntwork-io/terragrunt/releases/download/v0.75.10/terragrunt_linux_amd64 -o terragrunt
+          chmod +x terragrunt
+          sudo mv terragrunt /usr/local/bin/terragrunt
           export ARM_USE_MSI=true
           export ARM_SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
           export ARM_TENANT_ID=${TENANT_ID}
           export ARM_CLIENT_ID=${CLIENT_ID}
+          tree -d .
           cd "deployment/terragrunt/sandbox" 
           ls -latr
           terragrunt run-all plan --terragrunt-non-interactive -lock=false
+        shell: /usr/bin/bash {0}
