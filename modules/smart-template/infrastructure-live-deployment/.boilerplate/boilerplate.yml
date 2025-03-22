@@ -10,4 +10,4 @@ variables:
     type: string
   - name: TimeoutInSeconds
     description: The organization which you are logging in on behalf of. The repo will be created here.
-    type: string
+    type: int
