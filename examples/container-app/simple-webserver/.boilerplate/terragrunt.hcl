@@ -17,4 +17,6 @@ include "envcommon" {
 
 inputs = {
   naming_prefix = split("-", "{{ .NamingPrefix }}")[0]
+
+  use_azapi_for_extras = false
 }
