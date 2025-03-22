@@ -1,6 +1,6 @@
 ---
 
-name: Example ${example_name} Infra Live Test Workflow
+name: Example Infra Live Test Workflow
 
 on:
   push:

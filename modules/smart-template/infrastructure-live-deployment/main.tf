@@ -21,19 +21,10 @@ module "this" {
 resource "time_sleep" "wait_10s_to_push_workflow" {
   create_duration = "10s"
 
-  depends_on = [module.repo]
+  depends_on = [module.this]
 }
 
-resource "local_file" "workflow" {
-  content = templatefile(
-    "${path.module}/deploy_workflow.yaml.tmpl",
-    {
-      "example_name"    = var.name
-      "client_id"       = var.azure_client_id
-      "tenant_id"       = var.azure_tenant_id
-      "subscription_id" = var.azure_subscription_id
-    }
-  )
+data "local_file" "workflow" {
   filename = "${path.module}/deploy_workflow.yaml"
 }
 
@@ -41,7 +32,7 @@ resource "github_repository_file" "workflow" {
   repository          = var.name
   branch              = "main"
   file                = ".github/workflows/deploy_workflow.yaml"
-  content             = local_file.workflow.content
+  content             = data.local_file.workflow.content
   commit_message      = "Managed by ${var.name}"
   commit_author       = "Terraform User"
   commit_email        = "terraform@example.com"
