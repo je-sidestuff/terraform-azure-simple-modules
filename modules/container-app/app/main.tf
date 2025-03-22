@@ -165,17 +165,20 @@ resource "azurerm_container_app" "this" {
       identity_ids = var.user_assigned_identity_ids
     }
   }
+  
+  dynamic "ingress" {
+    for_each = var.ingress != null ? [1] : []
 
-  # We add ingress through an AzApi for now so we can support TCP
-  # dynamic "ingress" {
-  #   for_each = var.ingress != null ? [1] : []
+    content {
+      external_enabled = var.ingress.external
+      target_port      = var.ingress.target_port
+      traffic_weight {
+        percentage = 100
+      }
+      transport        = var.ingress.transport
+    }
+  }
 
-  #   content {
-  #     external_enabled = var.ingress.external
-  #     target_port      = var.ingress.target_port
-  #     transport        = var.ingress.transport
-  #   }
-  # }
 
   dynamic "registry" {
     for_each = nonsensitive(var.password_protected_registries)
@@ -239,6 +242,8 @@ resource "azurerm_container_app" "this" {
 }
 
 resource "azapi_update_resource" "add_extras_to_container_app" {
+  count = var.use_azapi_for_extras ? 1 : 0
+
   type        = "Microsoft.App/containerApps@2022-06-01-preview"
   resource_id = azurerm_container_app.this.id
 

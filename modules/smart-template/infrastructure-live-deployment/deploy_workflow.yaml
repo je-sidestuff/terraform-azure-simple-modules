@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  unit-tests:
+  deploy-terragrunt:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # This is required for requesting the JWT
