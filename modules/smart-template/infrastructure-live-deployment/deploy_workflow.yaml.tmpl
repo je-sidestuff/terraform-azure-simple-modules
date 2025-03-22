@@ -1,0 +1,36 @@
+---
+
+name: Example ${example_name} Infra Live Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_MI_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Initialize repo
+        env:
+          SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          CLIENT_ID: ${{ secrets.AZURE_MI_CLIENT_ID }}
+          TF_VAR_github_pat: ${{ secrets.GH_PAT }}
+          export ARM_USE_MSI=true
+          export ARM_SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
+          export ARM_TENANT_ID=${TENANT_ID}
+          export ARM_CLIENT_ID=${CLIENT_ID}
+          cd "deployment/terragrunt/sandbox" 
+          ls -latr
+          terragrunt run-all plan --terragrunt-non-interactive -lock=false

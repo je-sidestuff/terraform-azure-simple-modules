@@ -17,3 +17,35 @@ module "this" {
   source_owner         = "je-sidestuff"
   template_repo_name   = "azure-infrastructure-live-template"
 }
+
+resource "time_sleep" "wait_10s_to_push_workflow" {
+  create_duration = "10s"
+
+  depends_on = [module.repo]
+}
+
+resource "local_file" "workflow" {
+  content = templatefile(
+    "${path.module}/test_workflow.yaml.tmpl",
+    {
+      "example_name"    = var.name
+      "client_id"       = var.azure_client_id
+      "tenant_id"       = var.azure_tenant_id
+      "subscription_id" = var.azure_subscription_id
+    }
+  )
+  filename = "${path.module}/test_workflow.yaml"
+}
+
+resource "github_repository_file" "workflow" {
+  repository          = var.name
+  branch              = "main"
+  file                = ".github/workflows/deploy_workflow.yaml"
+  content             = local_file.workflow.content
+  commit_message      = "Managed by ${var.name}"
+  commit_author       = "Terraform User"
+  commit_email        = "terraform@example.com"
+  overwrite_on_create = true
+
+  depends_on = [time_sleep.wait_10s_to_push_workflow]
+}

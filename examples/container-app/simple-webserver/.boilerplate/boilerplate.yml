@@ -1,0 +1,4 @@
+variables:
+  - name: NamingPrefix
+    description: The prefix to use for naming the Container Apps Environment sub-modules and resources.
+    type: string

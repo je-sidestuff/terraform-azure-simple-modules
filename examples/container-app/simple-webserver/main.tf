@@ -23,11 +23,6 @@ module "acr" {
   resource_group_name = azurerm_resource_group.this.name
 }
 
-resource "local_file" "index_html" {
-  content = var.hosted_message
-  filename = "${path.root}/app/static/index.html"
-}
-
 module "image_build" {
   source = "../../../modules/azure-container-registry/image-build"
 
@@ -37,7 +32,7 @@ module "image_build" {
   image_tag       = "v0.0.1"
   docker_context  = "${path.root}/app"
 
-  depends_on = [local_file.index_html]
+  depends_on = [module.acr]
 }
 
 module "container_app_environment" {
