@@ -16,5 +16,5 @@ include "envcommon" {
 }
 
 inputs = {
-  naming_prefix = "{{ .NamingPrefix }}"
+  naming_prefix = split("-", "{{ .NamingPrefix }}")[0]
 }
