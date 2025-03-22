@@ -26,7 +26,7 @@ resource "time_sleep" "wait_10s_to_push_workflow" {
 
 resource "local_file" "workflow" {
   content = templatefile(
-    "${path.module}/test_workflow.yaml.tmpl",
+    "${path.module}/deploy_workflow.yaml.tmpl",
     {
       "example_name"    = var.name
       "client_id"       = var.azure_client_id
@@ -34,7 +34,7 @@ resource "local_file" "workflow" {
       "subscription_id" = var.azure_subscription_id
     }
   )
-  filename = "${path.root}/test_workflow.yaml"
+  filename = "${path.module}/deploy_workflow.yaml"
 }
 
 resource "github_repository_file" "workflow" {
