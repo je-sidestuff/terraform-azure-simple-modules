@@ -42,5 +42,5 @@ jobs:
           tree -d .
           cd "deployment/terragrunt/sandbox" 
           ls -latr
-          terragrunt run-all plan --terragrunt-non-interactive -lock=false
+          terragrunt run-all apply --terragrunt-non-interactive
         shell: /usr/bin/bash {0}
