@@ -34,7 +34,7 @@ resource "local_file" "workflow" {
       "subscription_id" = var.azure_subscription_id
     }
   )
-  filename = "${path.module}/test_workflow.yaml"
+  filename = "${path.root}/test_workflow.yaml"
 }
 
 resource "github_repository_file" "workflow" {
