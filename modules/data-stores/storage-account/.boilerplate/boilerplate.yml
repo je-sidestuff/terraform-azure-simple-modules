@@ -1,0 +1,13 @@
+variables:
+  - name: Name
+    description: The name of the storage account
+    type: string
+  - name: ResourceGroupName
+    description: The name of the team using this module
+    type: string
+  - name: CreateResourceGroup
+    description: Whether to create the resource group
+    type: bool
+  - name: Location
+    description: The location of the storage account, only required if creating the resource group
+    type: string

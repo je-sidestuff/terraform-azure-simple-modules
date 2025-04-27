@@ -82,4 +82,6 @@ module "webapp_aca" {
       memory = "2Gi"
     }
   }
+
+  use_azapi_for_extras = false
 }

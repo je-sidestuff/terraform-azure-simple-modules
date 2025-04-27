@@ -218,3 +218,9 @@ variable "ipSecurityRestrictions" {
     error_message = "Default action must be 'Allow' or 'Deny'. IP value must be a CIDR."
   }
 }
+
+variable "use_azapi_for_extras" {
+  description = "Whether to use azapi for extra configuration."
+  type        = bool
+  default     = true
+}

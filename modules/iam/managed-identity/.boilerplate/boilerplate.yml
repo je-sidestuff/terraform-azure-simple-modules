@@ -1,0 +1,13 @@
+variables:
+  - name: ResourceGroupName
+    description: The name of the resource group where the state storage will be deployed.
+    type: string
+  - name: NamingPrefix
+    description: The naming prefix to base this MI name on
+    type: string
+  - name: FederatedIdentitySubjects
+    description: The list of strings of federated identity subjects.
+    type: list
+  - name: ContributorScope
+    description: The scope at which the contributor role is assigned to the MI
+    type: string

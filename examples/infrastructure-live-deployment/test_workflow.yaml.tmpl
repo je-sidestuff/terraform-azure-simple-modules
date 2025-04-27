@@ -1,0 +1,52 @@
+---
+
+name: Example ${example_name} Infra Live Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    steps:
+      - uses: actions/checkout@v4
+#      - name: Manual login -- this does not work and it would be good to know why.
+#        run: |
+#          export AZURE_TENANT_ID="${tenant_id}"
+#          export AZURE_SUBSCRIPTION_ID="${subscription_id}"
+#          az login --identity --client-id ${client_id}
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          client-id: ${client_id}
+          tenant-id: ${tenant_id}
+          subscription-id: ${subscription_id}
+      - name: Deploy terragrunt
+        shell: /usr/bin/bash {0}
+        run: |
+          # Install TF
+          echo "1"
+          which terraform
+          curl "https://releases.hashicorp.com/terraform/1.9.1/terraform_1.9.1_linux_amd64.zip" -o "terraform_1.9.1_linux_amd64.zip"
+          echo "2"
+          unzip -o terraform_1.9.1_linux_amd64.zip
+          echo "3"
+          sudo mv terraform /usr/local/bin/terraform
+          echo "4"
+          # Install TG
+          which terragrunt
+          curl -L https://github.com/gruntwork-io/terragrunt/releases/download/v0.75.10/terragrunt_linux_amd64 -o terragrunt
+          chmod +x terragrunt
+          echo "5"
+          sudo mv terragrunt /usr/local/bin/terragrunt
+          # Deploy terragrunt
+          pwd
+          tree -d .
+          cd "deployment/terragrunt/sandbox" 
+          ls -latr
+          terragrunt run-all apply --terragrunt-non-interactive

@@ -1,0 +1,3 @@
+{
+    "default_path_tmpl" : "${subscription}/${region}/${env}/data-stores/${name}"
+}

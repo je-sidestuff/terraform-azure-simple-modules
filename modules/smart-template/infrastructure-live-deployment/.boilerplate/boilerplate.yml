@@ -1,0 +1,13 @@
+variables:
+  - name: Name
+    description: The name of the infrastructure live repo
+    type: string
+  - name: InitPayloadContent
+    description: The naming prefix to base this MI name on
+    type: string
+  - name: GithubOrg
+    description: The organization which you are logging in on behalf of. The repo will be created here.
+    type: string
+  - name: TimeoutInSeconds
+    description: The organization which you are logging in on behalf of. The repo will be created here.
+    type: int
