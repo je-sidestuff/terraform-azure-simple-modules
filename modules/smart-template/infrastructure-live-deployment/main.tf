@@ -1,3 +1,16 @@
+locals {
+  init_payload_content = jsondecode(var.init_payload_content)
+  init_payload = jsonencode(merge(
+    local.init_payload_content,
+    {
+      "state" = {
+        a = "b"
+        c = "d"
+      }
+    }
+  ))
+}
+
 module "this" {
   source = "github.com/je-sidestuff/terraform-github-orchestration.git//modules/repos/smart-template/deployment?ref=environment_deployment_support"
 

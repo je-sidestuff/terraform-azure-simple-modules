@@ -17,8 +17,6 @@ inputs = {
   root_container_name = "{{ .RootContainerName }}"
 
   bootstrap_styles = ["terraform", "terragrunt"]
-  
-  terragrunt_backend_generator_folder = "{{ .TerragruntBackendGeneratorFolder }}"
 }
 
 prevent_destroy = true

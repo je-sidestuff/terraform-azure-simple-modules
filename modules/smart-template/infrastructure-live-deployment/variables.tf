@@ -54,7 +54,7 @@ variable "description" {
 }
 
 variable "init_payload_content" {
-  description = "A json string uused to drive the initialization of the repo."
+  description = "A json string used to drive the initialization of the repo."
   type        = string
   default     = "{\"rg-name\": \"default-infra-live-rg\"}"
 }
