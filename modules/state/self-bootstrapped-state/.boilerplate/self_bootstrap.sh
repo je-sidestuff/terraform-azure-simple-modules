@@ -12,7 +12,7 @@ if [ -f "${SCRIPT_DIR}/backend.tf" ]; then
     rm "${SCRIPT_DIR}/backend.tf"
 fi
 
-cd "${SCRIPT_DIR}/.."
+cd "${SCRIPT_DIR}"
 terraform init -input=false
 terraform apply --auto-approve
 terraform init -input=false -migrate-state -force-copy
