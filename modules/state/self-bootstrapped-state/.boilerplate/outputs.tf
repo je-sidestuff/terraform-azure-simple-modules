@@ -1,3 +1,3 @@
 output "this" {
-  value = module.this
+  value = module.state
 }
