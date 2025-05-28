@@ -6,4 +6,10 @@ inputs = {
   bootstrap_styles = ["terraform", "terragrunt"]
 }
 
+# We exclude destruction because we must migrate the state locally first with the script
+exclude {
+    if = true
+    actions = ["destroy"]
+}
+
 prevent_destroy = true
