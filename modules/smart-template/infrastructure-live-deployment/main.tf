@@ -1,12 +1,19 @@
 locals {
-  init_payload_content = jsondecode(var.init_payload_content)
+  init_payload_content = {}
+
+  init_payload_backend = {
+    resource_group = var.state_backend.resource_group_name
+    storage_account = var.state_backend.storage_account_name
+    container = var.state_backend.container_name
+  }
+
   init_payload = jsonencode(merge(
     local.init_payload_content,
     {
-      "state" = {
-        a = "b"
-        c = "d"
-      }
+      "infra_live_version" = var.infra_live_version
+      "backend" = local.init_payload_backend
+      "self_bootstrap_scaffold_json_b64" = var.bootstrap_scaffold_json_b64
+      "deploy_scaffold_json_b64" = var.deploy_scaffold_json_b64
     }
   ))
 }

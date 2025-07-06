@@ -2,12 +2,15 @@ variables:
   - name: Name
     description: The name of the infrastructure live repo
     type: string
-  - name: InitPayloadContent
-    description: The naming prefix to base this MI name on
+  - name: SelfBootstrapContentJsonB64
+    description: The b64 encoded json describing the self bootstrapping terragrunt to create with the scaffolder.
+    type: string
+  - name: DeployContentJsonB64
+    description: The b64 encoded json describing the deployment terragrunt to create with the scaffolder.
     type: string
   - name: GithubOrg
     description: The organization which you are logging in on behalf of. The repo will be created here.
     type: string
   - name: TimeoutInSeconds
-    description: The organization which you are logging in on behalf of. The repo will be created here.
+    description: How long to wait for the repo to be created and bootstrapped.
     type: int

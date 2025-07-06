@@ -14,16 +14,19 @@ variable "github_pat" {
   sensitive   = true
 }
 
+# Thesee guys should become optional in the future
 variable "azure_subscription_id" {
   description = "The azure subscription id."
   type        = string
 }
 
+# Thesee guys should become optional in the future
 variable "azure_tenant_id" {
   description = "The azure tenant id."
   type        = string
 }
 
+# Thesee guys should become optional in the future
 variable "azure_client_id" {
   description = "The azure client id for the repo's managed identity."
   type        = string
@@ -53,10 +56,33 @@ variable "description" {
   default     = "This infrastructure live repo was created from a smart template."
 }
 
-variable "init_payload_content" {
-  description = "A json string used to drive the initialization of the repo."
+variable "infra_live_version" {
+  description = "The version of azure infrastructure live template repo to use."
+  type        = string
+  default     = "v1"
+}
+
+variable "bootstrap_scaffold_json_b64" {
+  description = "A json string used to scaffold the terragrunt tree that will be planned for consistency."
   type        = string
   default     = "{\"rg-name\": \"default-infra-live-rg\"}"
+}
+
+variable "deploy_scaffold_json_b64" {
+  description = "A json string used to scaffold the terragrunt tree that will be planned for consistency."
+  type        = string
+  default     = "{\"rg-name\": \"default-infra-live-rg\"}"
+}
+
+variable "state_backend" {
+  description = "Values to be useed in the state backend generator."
+  type        = object({
+    resource_group_name = string
+    storage_account_name = string
+    container_name = string
+    # Should we consider key name here in another increment?
+  })
+  default     = null
 }
 
 variable "timeout_in_seconds" {

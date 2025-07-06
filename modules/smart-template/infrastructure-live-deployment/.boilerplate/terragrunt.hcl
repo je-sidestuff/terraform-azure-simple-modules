@@ -32,12 +32,28 @@ dependency "mi" {
   config_path = "../../iam/managed_identity"
 }
 
+dependency "state" {
+  config_path = "../../state/self_bootstrapped_state"
+}
+
 inputs = {
+
   # Note that TF_VAR_github_pat must be present in the environment.
   name = "{{ .Name }}"
-  init_payload_content = <<EOF
-{{ .InitPayloadContent }}
-EOF
+
+  self_bootstrap_content = "{{ .SelfBootstrapContentJsonB64 }}"
+
+  self_bootstratp_content_in_base64 = true
+
+  deploy_content = "{{ .DeployContentJsonB64 }}"
+
+  deploy_content_in_base64 = true
+
+  state_backend = {
+    resource_group_name = dependency.state.outputs.resource_group_name
+    storage_account_name = dependency.state.outputs.storage_account_name
+    container_name = dependency.state.outputs.container_name
+  }
 
   azure_subscription_id = dependency.mi.outputs.subscription_id
   azure_tenant_id       = dependency.mi.outputs.tenant_id
