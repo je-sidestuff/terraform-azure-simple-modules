@@ -23,7 +23,7 @@ module "this" {
 
   name                   = var.name
   github_pat             = var.github_pat
-  init_payload_content   = var.init_payload_content
+  init_payload_content   = local.init_payload
   default_branch         = var.default_branch
   description            = var.description
   visibility             = var.visibility
