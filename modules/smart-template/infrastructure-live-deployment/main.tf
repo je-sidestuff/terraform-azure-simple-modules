@@ -15,8 +15,8 @@ locals {
     {
       "infra_live_version" = var.infra_live_version
       "backend" = local.init_payload_backend
-      "self_bootstrap_scaffold_json_b64" = local.bootstrap_scaffold_json_b64
-      "deploy_scaffold_json_b64" = local.deploy_scaffold_json_b64
+      "self_bootstrap_scaffold_json_b64" = base64encode(local.bootstrap_scaffold_json_b64)
+      "deploy_scaffold_json_b64" = base64encode(local.deploy_scaffold_json_b64)
     }
   ))
 }
