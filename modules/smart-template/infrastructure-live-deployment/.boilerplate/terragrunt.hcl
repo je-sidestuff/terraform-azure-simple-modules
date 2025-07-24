@@ -41,13 +41,13 @@ inputs = {
   # Note that TF_VAR_github_pat must be present in the environment.
   name = "{{ .Name }}"
 
-  self_bootstrap_content = "{{ .SelfBootstrapContentJsonB64 }}"
+  self_bootstrap_json = "{{ .SelfBootstrapContentJsonB64 }}"
 
-  self_bootstratp_content_in_base64 = true
+  self_bootstratp_json_in_base64 = true
 
-  deploy_content = "{{ .DeployContentJsonB64 }}"
+  deploy_json = "{{ .DeployContentJsonB64 }}"
 
-  deploy_content_in_base64 = true
+  deploy_json_in_base64 = true
 
   state_backend = {
     resource_group_name = dependency.state.outputs.resource_group_name

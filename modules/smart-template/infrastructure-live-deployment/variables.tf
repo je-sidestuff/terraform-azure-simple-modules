@@ -62,16 +62,30 @@ variable "infra_live_version" {
   default     = "v1"
 }
 
-variable "bootstrap_scaffold_json_b64" {
+variable "self_bootstrap_json" {
   description = "A json string used to scaffold the terragrunt tree that will be planned for consistency."
   type        = string
+  # TODO - this needs a better default.
   default     = "{\"rg-name\": \"default-infra-live-rg\"}"
 }
 
-variable "deploy_scaffold_json_b64" {
-  description = "A json string used to scaffold the terragrunt tree that will be planned for consistency."
+variable "self_bootstratp_json_in_base64" {
+  description = "Whether the self-bootstrap json is supplied in base64."
+  type = bool
+  default = false
+}
+
+variable "deploy_json" {
+  description = "A json string used to scaffold the terragrunt tree that will be deployed."
   type        = string
+  # TODO - this needs a better default.
   default     = "{\"rg-name\": \"default-infra-live-rg\"}"
+}
+
+variable "deploy_json_in_base64" {
+  description = "Whether the self-bootstrap json is supplied in base64."
+  type = bool
+  default = false
 }
 
 variable "state_backend" {
