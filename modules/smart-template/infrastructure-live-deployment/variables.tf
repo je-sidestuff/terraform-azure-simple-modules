@@ -96,7 +96,7 @@ variable "state_backend" {
     container_name = string
     # Should we consider key name here in another increment?
   })
-  default     = null
+  default     = null # It won't actually accept null happily - TODO
 }
 
 variable "timeout_in_seconds" {

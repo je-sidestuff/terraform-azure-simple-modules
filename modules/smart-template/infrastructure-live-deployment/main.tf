@@ -7,6 +7,12 @@ locals {
     container = var.state_backend.container_name
   }
 
+  init_payload_provider_mi = {
+    subscription_id = var.azure_subscription_id
+    tenant_id = var.azure_tenant_id
+    client_id = var.azure_client_id
+  }
+
   bootstrap_scaffold_json_b64 = var.self_bootstratp_json_in_base64 ? replace(base64decode(var.self_bootstrap_json), "\n", "") : var.self_bootstrap_json
   deploy_scaffold_json_b64 = var.deploy_json_in_base64 ? replace(base64decode(var.deploy_json), "\n", "") : var.deploy_json
 
@@ -15,6 +21,7 @@ locals {
     {
       "infra_live_version" = var.infra_live_version
       "backend" = local.init_payload_backend
+      "provider_mi" = local.init_payload_provider_mi
       "self_bootstrap_scaffold_json_b64" = base64encode(local.bootstrap_scaffold_json_b64)
       "deploy_scaffold_json_b64" = base64encode(local.deploy_scaffold_json_b64)
     }
