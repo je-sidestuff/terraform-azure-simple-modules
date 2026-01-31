@@ -1,3 +1,9 @@
+{{if .IncludeRoot}}
+include "root" {
+  path = find_in_parent_folders("root.hcl")
+}
+{{end}}
+
 inputs = {
   resource_group_name = "{{ .ResourceGroupName }}"
   storage_account_name = "{{ .StorageAccountName }}"
