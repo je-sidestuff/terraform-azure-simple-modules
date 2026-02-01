@@ -11,9 +11,9 @@ generate "backend" {
   contents = <<EOF
 terraform {
   backend "azurerm" {
-    resource_group_name  = "${var.arguments.resource_group_name}"
-    storage_account_name = "${var.arguments.storage_account_name}"
-    container_name       = "${var.arguments.container_name}"
+    resource_group_name  = "{{ .ResourceGroupName }}"
+    storage_account_name = "{{ .StorageAccountName }}"
+    container_name       = "{{ .RootContainerName }}"
     key                  = "root.tfstate"
     use_azuread_auth     = true
     use_oidc             = true
