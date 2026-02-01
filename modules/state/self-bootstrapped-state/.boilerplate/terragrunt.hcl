@@ -2,6 +2,25 @@
 include "root" {
   path = find_in_parent_folders("root.hcl")
 }
+
+# We add a gnerate here to work around the MI issue for now,
+# But there must be a cleaner solution. (The root will skip, this will write)
+generate "backend" {
+  path      = "backend.tf"
+  if_exists = "overwrite"
+  contents = <<EOF
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "${var.arguments.resource_group_name}"
+    storage_account_name = "${var.arguments.storage_account_name}"
+    container_name       = "${var.arguments.container_name}"
+    key                  = "root.tfstate"
+    use_azuread_auth     = true
+    use_oidc             = true
+    }
+}
+EOF
+}
 {{end}}
 
 inputs = {
