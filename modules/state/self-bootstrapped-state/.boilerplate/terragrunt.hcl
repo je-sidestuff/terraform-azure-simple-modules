@@ -1,6 +1,6 @@
 {{if .IncludeRoot}}
-include "root" {
-  path = find_in_parent_folders("root.hcl")
+include "providergen" {
+  path = find_in_parent_folders("providergen.hcl")
 }
 
 # We add a gnerate here to work around the MI issue for now,
