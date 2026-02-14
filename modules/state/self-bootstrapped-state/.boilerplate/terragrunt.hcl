@@ -1,15 +1,27 @@
+{{if .IncludeRoot}}
+include "providergen" {
+  path = find_in_parent_folders("providergen.hcl")
+}
+
+# We add a gnerate here to work around the MI issue for now,
+# But there must be a cleaner solution. (The root will skip, this will write)
+generate "backend" {
+  path      = "backend.tf"
+  if_exists = "overwrite"
+  contents = <<EOF
 terraform {
-  source = "{{ .sourceUrl }}"
+  backend "azurerm" {
+    resource_group_name  = "{{ .ResourceGroupName }}"
+    storage_account_name = "{{ .StorageAccountName }}"
+    container_name       = "{{ .RootContainerName }}"
+    key                  = "root.tfstate"
+    use_azuread_auth     = true
+    use_oidc             = true
+    }
 }
-
-include "root" {
-  path = find_in_parent_folders("root.hcl")
+EOF
 }
-
-include "envcommon" {
-  path = "${dirname(find_in_parent_folders("root.hcl"))}/_envcommon/common.hcl"
-  expose = true
-}
+{{end}}
 
 inputs = {
   resource_group_name = "{{ .ResourceGroupName }}"
@@ -17,8 +29,12 @@ inputs = {
   root_container_name = "{{ .RootContainerName }}"
 
   bootstrap_styles = ["terraform", "terragrunt"]
-  
-  terragrunt_backend_generator_folder = "{{ .TerragruntBackendGeneratorFolder }}"
+}
+
+# We exclude destruction because we must migrate the state locally first with the script
+exclude {
+    if = true
+    actions = ["destroy"]
 }
 
 prevent_destroy = true

@@ -47,7 +47,12 @@ module "repo" {
 
   name                 = local.example_repo
   github_pat           = var.github_pat
-  init_payload_content = local.init_payload_content
+
+  state_backend = {
+    resource_group_name = "FakeForNow"
+    storage_account_name = "FakeForNow"
+    container_name = "FakeForNow"
+  }
 
   azure_subscription_id = data.azurerm_client_config.current.subscription_id
   azure_tenant_id       = data.azurerm_client_config.current.tenant_id

@@ -31,8 +31,22 @@ variable "name" {
   default     = "generate"
 }
 
+variable "self_bootstrap_scaffold_string" {
+  description = "A json string used to drive the self-bootstrappin portion of the initialization."
+  type        = string
+  default     = <<EOF
+EOF
+}
+
+variable "deploy_scaffold_string" {
+  description = "A json string used to drive the deployment portion of the initialization."
+  type        = string
+  default     = <<EOF
+EOF
+}
+
 variable "init_payload_content_string" {
-  description = "A json string uused to drive the initialization of the repo."
+  description = "A json string used to drive the initialization of the repo."
   type        = string
   default     = <<EOF
 {

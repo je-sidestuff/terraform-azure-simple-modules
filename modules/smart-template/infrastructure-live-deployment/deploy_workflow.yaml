@@ -37,10 +37,11 @@ jobs:
           sudo mv terragrunt /usr/local/bin/terragrunt
           export ARM_USE_MSI=true
           export ARM_SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
+          export TF_VAR_subscription_id=${SUBSCRIPTION_ID}
           export ARM_TENANT_ID=${TENANT_ID}
           export ARM_CLIENT_ID=${CLIENT_ID}
           tree .
-          cd "deployment/terragrunt/sandbox" 
+          cd "deployment/terragrunt/terragrunt/sandbox"
           ls -latr
           terragrunt run-all apply --terragrunt-non-interactive
         shell: /usr/bin/bash {0}

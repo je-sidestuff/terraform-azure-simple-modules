@@ -46,6 +46,10 @@ COPY install_devcontainer_utilities.sh /tmp/install_devcontainer_utilities.sh
 # Install additional utilities in the devcontainer directly.
 RUN bash /tmp/install_devcontainer_utilities.sh
 
+# Install node and claude code
+RUN sudo apt update && sudo apt install -y nodejs npm
+RUN npm install -g @anthropic-ai/claude-code
+
 HEALTHCHECK CMD echo healthy
 
 USER $USERNAME
