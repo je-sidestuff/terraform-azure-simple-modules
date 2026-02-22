@@ -10,17 +10,20 @@ resource "random_string" "random" {
   upper   = false
 }
 
-resource "azurerm_resource_group" "this" {
-  name     = "${local.naming_prefix}-rg"
-  location = var.location
+module "resource_group" {
+  source = "../../../modules/scoping/resource-group"
+
+  naming_prefix = local.naming_prefix
+  location      = var.location
+  tags          = var.tags
 }
 
 module "acr" {
   source = "../../../modules/azure-container-registry/registry"
 
   naming_prefix       = local.naming_prefix
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = module.resource_group.location
+  resource_group_name = module.resource_group.name
 }
 
 resource "local_file" "index_html" {
@@ -44,8 +47,8 @@ module "container_app_environment" {
   source = "../../../modules/container-app/environment"
 
   naming_prefix       = local.naming_prefix
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
   tags                = var.tags
 }
 
@@ -54,7 +57,7 @@ module "webapp_aca" {
 
   naming_prefix                = local.naming_prefix
   naming_desc                  = "webapp"
-  resource_group_name          = azurerm_resource_group.this.name
+  resource_group_name          = module.resource_group.name
   managed_environment_id       = module.container_app_environment.id
   min_replicas                 = 1
   max_replicas                 = 1
