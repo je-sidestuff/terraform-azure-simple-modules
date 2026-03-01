@@ -1,5 +1,5 @@
 resource "random_string" "scope_seed" {
-  count   = var.scoping_tags_include_random ? 1 : 0
+  count   = (var.scoping_tags_include_random || var.append_random_seed_to_storage_account_name) ? 1 : 0
   length  = 4
   special = false
   upper   = false
@@ -10,6 +10,8 @@ resource "time_static" "scope_creation" {
 }
 
 locals {
+  storage_account_name = var.append_random_seed_to_storage_account_name ? "${var.storage_account_name}${random_string.scope_seed[0].result}" : var.storage_account_name
+
   random_tag = var.scoping_tags_include_random ? {
     "state-seed" = "${var.storage_account_name}-${random_string.scope_seed[0].result}"
   } : {}
@@ -34,13 +36,14 @@ resource "azurerm_resource_group" "state_resource_group" {
 }
 
 resource "azurerm_storage_account" "state_storage_account" {
-    name                     = var.storage_account_name
+    name                     = local.storage_account_name
     resource_group_name      = azurerm_resource_group.state_resource_group.name
     location                 = azurerm_resource_group.state_resource_group.location
     account_tier             = "Standard"
     account_replication_type = "LRS"
 
     tags = local.all_tags
+
 }
 
 resource "azurerm_storage_container" "state_container" {

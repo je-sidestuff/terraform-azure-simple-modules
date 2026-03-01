@@ -63,6 +63,12 @@ variable "scoping_tags_include_random" {
   default     = true
 }
 
+variable "append_random_seed_to_storage_account_name" {
+  description = "Append a random 4-character alphanumeric seed to the storage account name. Uses the same seed as scoping_tags_include_random when both are enabled."
+  type        = bool
+  default     = false
+}
+
 variable "scoping_tags_include_creation_timestamp" {
   description = "Add a tag to mark the creation time of this state's scope."
   type        = bool
