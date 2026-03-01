@@ -51,6 +51,24 @@ variable "terragrunt_backend_generator_folder" {
   default     = ""
 }
 
+variable "scoping_tags" {
+  description = "A map of tags to apply to all resources using this state (including the resources here)."
+  type        = map(string)
+  default     = {}
+}
+
+variable "scoping_tags_include_random" {
+  description = "Add a tag based on this storage account name and a random 4-character alphanumeric seed."
+  type        = bool
+  default     = true
+}
+
+variable "scoping_tags_include_creation_timestamp" {
+  description = "Add a tag to mark the creation time of this state's scope."
+  type        = bool
+  default     = true
+}
+
 variable "tags" {
   description = "A map of tags to apply to the resource."
   type        = map(string)

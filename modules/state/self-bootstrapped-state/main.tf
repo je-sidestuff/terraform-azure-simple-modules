@@ -1,6 +1,36 @@
+resource "random_string" "scope_seed" {
+  count   = var.scoping_tags_include_random ? 1 : 0
+  length  = 4
+  special = false
+  upper   = false
+}
+
+resource "time_static" "scope_creation" {
+  count = var.scoping_tags_include_creation_timestamp ? 1 : 0
+}
+
+locals {
+  random_tag = var.scoping_tags_include_random ? {
+    "state-seed" = "${var.storage_account_name}-${random_string.scope_seed[0].result}"
+  } : {}
+
+  timestamp_tag = var.scoping_tags_include_creation_timestamp ? {
+    "state-created" = time_static.scope_creation[0].rfc3339
+  } : {}
+
+  scoping_tags = merge(
+    var.scoping_tags,
+    local.random_tag,
+    local.timestamp_tag
+  )
+
+  all_tags = merge(local.scoping_tags, var.tags)
+}
+
 resource "azurerm_resource_group" "state_resource_group" {
     name     = var.resource_group_name
     location = var.location
+    tags     = local.all_tags
 }
 
 resource "azurerm_storage_account" "state_storage_account" {
@@ -10,7 +40,7 @@ resource "azurerm_storage_account" "state_storage_account" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
 
-    tags = var.tags
+    tags = local.all_tags
 }
 
 resource "azurerm_storage_container" "state_container" {
